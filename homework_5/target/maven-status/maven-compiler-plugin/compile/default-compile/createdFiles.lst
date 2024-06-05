@@ -1,4 +1,5 @@
 org\example\dao\EmployeeDAO.class
+org\example\dto\EmployeesFilterDto.class
 org\example\MyResource.class
 org\example\Controler\EmployeesControler.class
 org\example\Models\Employees.class

@@ -1,16 +1,13 @@
 package org.example.Controler;
-
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import org.example.Models.Employees;
 import org.example.dao.EmployeeDAO;
-//import org.example.models.Job;
+import org.example.dto.EmployeesFilterDto;
 
 import java.util.ArrayList;
 
-import jakarta.ws.rs.*;
-
-import java.util.ArrayList;
-@Path("/Employee")
+@Path("/Employees")
 public class EmployeesControler {
 
     EmployeeDAO dao = new EmployeeDAO();
@@ -25,27 +22,46 @@ public class EmployeesControler {
         }
     }
 
+
+//    @GET
+//    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+//    public ArrayList<Employees> getAllEmployees(
+////            @QueryParam("salary") Double min_salary,
+////            @QueryParam("limit") Integer limit,
+////            @QueryParam("offset") int offset
+//            @BeanParam EmployeesFilterDto filter
+//    ) {
+//        try {
+//            return dao.selectAllEmployee(filter);
+//            // return dao.getAllEmployees(min_salary, limit, offset);
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+
     @GET
-    @Path("{jobId}")
-    public Employees getEmployees(@PathParam("jobId") int deptId) {
+    @Path("{employeeId}")
+    public Employees getEmployees(@PathParam("employeeId") int employeeId) {
 
         try {
-            return dao.selectEmployees(deptId);
+            return dao.selectEmployees(employeeId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @DELETE
-    @Path("{deptId}")
-    public void deleteEmployees(@PathParam("deptId") int deptId) {
+    @Path("{employeeId}")
+    public void deleteEmployees(@PathParam("employeeId") int employeeId) {
 
         try {
-            dao.setDeleteEmployee(deptId);
+            dao.setDeleteEmployee(employeeId);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @POST
     public void insertEmployees(Employees dept) {
@@ -58,15 +74,16 @@ public class EmployeesControler {
     }
 
     @PUT
-    @Path("{deptId}")
-    public void updateEmployees(@PathParam("deptId") int deptId, Employees dept) {
+    @Path("{employeeId}")
+    public void updateEmployees(@PathParam("employeeId") int employeeId, Employees dept) {
 
         try {
-            dept.setJob_id(deptId);
+            dept.setJob_id(employeeId);
             dao.setUpdateEmployees(dept);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
 }

@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.Models.Employees;
+import org.example.dto.EmployeesFilterDto;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,14 +10,20 @@ public class EmployeeDAO {
 
 
 
-    private static final String URL = "jdbc:sqlite:C:\\Users\\dev\\IdeaProjects\\homework_4\\src\\main\\java\\org\\example\\hr.db";
+    private static final String URL = "jdbc:sqlite:C:\\Users\\dev\\IdeaProjects\\homework_5\\hr (1).db";
     private static final String SELECT_ALL_EMPLOYEE = "select * from employees";
     private static final String SELECT_ONE_EMPLOYEE = "select * from employees where employee_id = ?";
     private static final String INSERT_EMPLOYEE = "insert into employees values  (?,?,?,?,?,?,?,?,?,?)";
-    private static final String UPDATE_EMPLOYEE = "update employees set first_name = ? ,last_name = ?, email = ? phone_number = ? ,hire_date =? ,job_id = ? ,salary = ? ,manager_id = ? ,department_id = ?";
+    private static final String UPDATE_EMPLOYEE = "update employees set first_name = ? ,last_name = ?, email = ? phone_number = ? ,hire_date =? ,job_id = ? ,salary = ? ,manager_id = ? ,department_id = ? where employee_id =?";
     private static final String DELETE_EMPLOYEE = "delete from employees where employee_id = ?";
+    //==============================================
+//    private static final String SELECT_DEPT_WITH_MIN = "select * from Jobs where min_salary = ?";
+//    // CHEEK IF I BUTET AS SALARY
+//    private static final String SELECT_DEPT_WITH_LOC_PAGINATION = "select * from Jobs where min_salary = ? order by job_id limit ? offset ?";
+//    private static final String SELECT_DEPT_WITH_PAGINATION = "select * from Jobs order by job_id limit ? offset ?";
 
-    public void setInsertEmployees(Employees d) throws SQLException {
+    public void setInsertEmployees(Employees d) throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
         PreparedStatement st = conn.prepareStatement(INSERT_EMPLOYEE);
         st.setInt(1, d.getEmployee_id());
@@ -32,7 +39,8 @@ public class EmployeeDAO {
         st.executeUpdate();
     }
 
-    public void setUpdateEmployees(Employees d) throws SQLException {
+    public void setUpdateEmployees(Employees d) throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
         PreparedStatement st = conn.prepareStatement(UPDATE_EMPLOYEE);
         st.setInt(1, d.getJob_id());
@@ -49,14 +57,17 @@ public class EmployeeDAO {
         st.executeUpdate();
     }
 
-    public void setDeleteEmployee(int employeesId) throws SQLException {
+
+    public void setDeleteEmployee(int employeesId) throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
         PreparedStatement st = conn.prepareStatement(DELETE_EMPLOYEE);
         st.setInt(1, employeesId);
         st.executeUpdate();
     }
 
-    public Employees selectEmployees(int employeesId) throws SQLException {
+    public Employees selectEmployees(int employeesId) throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
         PreparedStatement st = conn.prepareStatement(SELECT_ONE_EMPLOYEE);
         st.setInt(1, employeesId);
@@ -69,7 +80,8 @@ public class EmployeeDAO {
         }
     }
 
-    public ArrayList<Employees> selectAllEmployee() throws SQLException {
+    public ArrayList<Employees> selectAllEmployee() throws SQLException, ClassNotFoundException {
+        Class.forName("org.sqlite.JDBC");
         Connection conn = DriverManager.getConnection(URL);
         PreparedStatement st = conn.prepareStatement(SELECT_ALL_EMPLOYEE);
         ResultSet rs = st.executeQuery();
@@ -80,5 +92,36 @@ public class EmployeeDAO {
 
         return employee;
     }
+
+//    public ArrayList<Employees> selectAllJobs(EmployeesFilterDto filter) throws SQLException, ClassNotFoundException {
+//        Class.forName("org.sqlite.JDBC");
+//        Connection conn = DriverManager.getConnection(URL);
+//        PreparedStatement st;
+//        if (filter.getSalary() != null && filter.getLimit() != null) {
+//            st = conn.prepareStatement(SELECT_DEPT_WITH_LOC_PAGINATION);
+//            st.setDouble(1, filter.getSalary());
+//            st.setInt(2, filter.getLimit());
+//            st.setInt(3, filter.getOffset());
+//
+//        } else if (filter.getSalary() != null) {
+//            st = conn.prepareStatement(SELECT_DEPT_WITH_MIN);
+//            st.setDouble(1, filter.getSalary());
+//
+//        } else if (filter.getLimit() != null) {
+//            st = conn.prepareStatement(SELECT_DEPT_WITH_PAGINATION);
+//            st.setInt(1, filter.getLimit());
+//            st.setInt(2, filter.getOffset());
+//
+//        } else {
+//            st = conn.prepareStatement(SELECT_ALL_EMPLOYEE);
+//        }
+//        ResultSet rs = st.executeQuery();
+//        ArrayList<Employees> depts = new ArrayList<>();
+//        while (rs.next()) {
+//            depts.add(new Employees(rs));
+//        }
+//
+//        return depts;
+//    }
 
 }

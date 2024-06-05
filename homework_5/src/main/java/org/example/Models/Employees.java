@@ -9,12 +9,15 @@ public class Employees {
     private String first_name;
     private String last_name;
     private String email;
-    private String phone_number;
+    private String phone_number ;
     private String hire_date;
     private int job_id;
     private double salary;
     private int manager_id;
     private int department_id;
+
+    public Employees() {
+    }
 
     public Employees(int employee_id, String first_name, String last_name, String email, String phone_number, String hire_date , int job_id, double salary, int manager_id, int department_id){
         this.employee_id = employee_id;
